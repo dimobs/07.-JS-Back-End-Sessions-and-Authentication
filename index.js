@@ -1,19 +1,19 @@
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const { v4: uuid } = require('uuid');
-const bcrypt = require('bcrypt');
-const jwt = require('./lib/jwt');
+const express = require('express'); //server
+const cookieParser = require('cookie-parser'); //seion
+const { v4: uuid } = require('uuid'); //random ID
+const bcrypt = require('bcrypt'); //hesh pass
+const jwt = require('./lib/jwt'); //token
 
-const app = express();
+const app = express(); 
 const secret = 'alabalasecretstochadura';
 
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser()); 
+app.use(express.urlencoded({ extended: false })); //body Parser
 
 const users = {};
 
 app.get('/', (req, res) => {
-    res.send('Hello')
+    res.status(200).send('Hello')
 });
 
 app.get('/register', (req, res) => {
@@ -76,11 +76,11 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/profile', async (req, res) => {
-    const token = req.cookies['token'];
+    const token = req.cookies['token']; //guard
 
     if (token) {
         try {
-            const payload = await jwt.verify(token, secret)
+            const payload = await jwt.verify(token, secret) //guard
 
             res.send(`Profile: ${payload.username}`);
         } catch (err) {
